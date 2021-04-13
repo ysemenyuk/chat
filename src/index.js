@@ -1,31 +1,33 @@
-// @ts-check
+// @ts-nocheck
+import ReactDOM from 'react-dom';
+import { configureStore } from '@reduxjs/toolkit';
+import { setLocale } from 'yup';
+// import faker from 'faker';
+// import Cookies from 'js-cookie';
+import 'bootstrap';
 
 import 'core-js/stable/index.js';
 import 'regenerator-runtime/runtime.js';
 
 import '../assets/application.scss';
 
+import initApp from './initApp.jsx';
+import initSocket from './socket.js';
+import i18n from './i18n.js';
+
+import yupLocale from './locales/yupLocale.js';
+import reducer from './store/slices.js';
+
 if (process.env.NODE_ENV !== 'production') {
   localStorage.debug = 'chat:*';
 }
 
-const p = document.createElement('p');
-p.classList.add('card-text');
-p.textContent = 'It works!';
+setLocale(yupLocale);
 
-const h5 = document.createElement('h5');
-h5.classList.add('card-title');
-h5.textContent = 'Project frontend l4 boilerplate';
+const store = configureStore({ reducer });
+initSocket(store);
 
-const cardBody = document.createElement('div');
-cardBody.classList.add('card-body');
-cardBody.append(h5, p);
-
-const card = document.createElement('div');
-card.classList.add('card', 'text-center');
-card.append(cardBody);
-
-const container = document.querySelector('#chat');
-container.append(card);
-
-console.log('it works!');
+ReactDOM.render(
+  initApp(store, i18n),
+  document.getElementById('chat'),
+);
