@@ -1,23 +1,25 @@
 import React, { useState } from 'react';
 
-export const LoggerContext = React.createContext({});
-
 export const UserContext = React.createContext({});
 
-export const authContext = React.createContext({});
+export const UserProvider = ({ children }) => {
+  const [info, setInfo] = useState(null);
 
-export const AuthProvider = ({ children }) => {
-  const [loggedIn, setLoggedIn] = useState(false);
+  const userInfo = JSON.parse(localStorage.getItem('userInfo'));
 
-  const logIn = () => setLoggedIn(true);
+  if (userInfo && userInfo.token && info === null) {
+    setInfo(userInfo);
+  }
+
+  const logIn = (user) => setInfo(user);
   const logOut = () => {
     localStorage.removeItem('userInfo');
-    setLoggedIn(false);
+    setInfo(null);
   };
 
   return (
-    <authContext.Provider value={{ loggedIn, logIn, logOut }}>
+    <UserContext.Provider value={{ info, logIn, logOut }}>
       {children}
-    </authContext.Provider>
+    </UserContext.Provider>
   );
 };

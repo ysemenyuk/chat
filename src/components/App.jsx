@@ -11,32 +11,15 @@ import { Button, Navbar } from 'react-bootstrap';
 import LoginPage from '../pages/LoginPage.jsx';
 import ChatPage from '../pages/ChatPage.jsx';
 
-import { authContext } from '../context.jsx';
-
-// const AuthProvider = ({ children }) => {
-//   const [loggedIn, setLoggedIn] = useState(false);
-
-//   const logIn = () => setLoggedIn(true);
-//   const logOut = () => {
-//     localStorage.removeItem('userInfo');
-//     setLoggedIn(false);
-//   };
-
-//   return (
-//     <authContext.Provider value={{ loggedIn, logIn, logOut }}>
-//       {children}
-//     </authContext.Provider>
-//   );
-// };
+import { UserContext } from '../context.jsx';
 
 const PrivateRoute = ({ children, path }) => {
-  const auth = useContext(authContext);
-  console.log('PrivateRoute auth -', auth);
-
+  const user = useContext(UserContext);
+  // console.log('PrivateRoute user -', user);
   return (
     <Route
       path={path}
-      render={({ location }) => (auth.loggedIn
+      render={({ location }) => (user.info
         ? (
           children
         )
@@ -48,11 +31,11 @@ const PrivateRoute = ({ children, path }) => {
 };
 
 const AuthButton = () => {
-  const auth = useContext(authContext);
-  console.log('AuthButton auth -', auth);
-  return auth.loggedIn
+  const user = useContext(UserContext);
+  // console.log('AuthButton user -', user);
+  return user.info
     ? (
-      <Button onClick={auth.logOut}>Log out</Button>
+      <Button onClick={user.logOut}>Log out</Button>
     )
     : (
       <Button as={Link} to="/login">
@@ -64,7 +47,6 @@ const AuthButton = () => {
 const App = () => {
   console.log('app');
   return (
-
     <Router>
 
       <Navbar bg="light" expand="lg" className="mb-3">
@@ -84,7 +66,6 @@ const App = () => {
       </Switch>
 
     </Router>
-
   );
 };
 

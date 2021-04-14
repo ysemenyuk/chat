@@ -5,11 +5,11 @@ import { useFormik } from 'formik';
 import { Button, Form } from 'react-bootstrap';
 import { useLocation, useHistory } from 'react-router-dom';
 
-import { authContext } from '../context.jsx';
+import { UserContext } from '../context.jsx';
 import routes from '../routes.js';
 
 const LoginPage = () => {
-  const auth = useContext(authContext);
+  const user = useContext(UserContext);
   const [authFailed, setAuthFailed] = useState(false);
   const inputRef = useRef();
   const location = useLocation();
@@ -28,10 +28,9 @@ const LoginPage = () => {
       setAuthFailed(false);
 
       try {
-        const res = await axios.post(routes.loginPath(), values);
-
-        localStorage.setItem('userInfo', JSON.stringify(res.data));
-        auth.logIn();
+        const { data } = await axios.post(routes.loginPath(), values);
+        localStorage.setItem('userInfo', JSON.stringify(data));
+        user.logIn(data);
 
         const { from } = location.state || { from: { pathname: '/' } };
         history.replace(from);
