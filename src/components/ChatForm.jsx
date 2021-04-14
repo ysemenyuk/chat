@@ -6,7 +6,7 @@ import {
   Button, Form, Spinner, InputGroup,
 } from 'react-bootstrap';
 
-import { UserContext } from '../context.js';
+import { UserContext } from '../context.jsx';
 import routes from '../routes.js';
 
 const ChatForm = (props) => {
