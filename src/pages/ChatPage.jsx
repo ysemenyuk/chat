@@ -1,31 +1,33 @@
-import axios from 'axios';
 import React, { useEffect } from 'react';
+import { useDispatch } from 'react-redux';
 
-import routes from '../routes.js';
+import { Row, Col } from 'react-bootstrap';
 
-const getAuthHeader = () => {
-  const userInfo = JSON.parse(localStorage.getItem('userInfo'));
-  if (userInfo && userInfo.token) {
-    return { Authorization: `Bearer ${userInfo.token}` };
-  }
-  return {};
-};
+import Channels from '../components/channels/Channels.jsx';
+import Chat from '../components/chat/Chat.jsx';
+import Modal from '../components/modals/Modal.jsx';
+
+import { fetchUserData } from '../store/slices.js';
 
 const ChatPage = () => {
   console.log('Chat Page');
+  const dispatch = useDispatch();
 
   useEffect(() => {
-    const url = routes.usersPath();
-    axios.get(url, {
-      headers: getAuthHeader(),
-    })
-      .then((res) => {
-        console.log('res.data -', res.data);
-      });
+    dispatch(fetchUserData());
   }, []);
 
-  return <p>Chat Page</p>;
-  // END
+  return (
+    <Row className="row flex-grow-1 h-75 pb-3">
+      <Col xs={3} className="border-right">
+        <Channels />
+      </Col>
+      <Col className="h-100">
+        <Chat />
+      </Col>
+      <Modal />
+    </Row>
+  );
 };
 
 export default ChatPage;

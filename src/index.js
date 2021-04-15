@@ -27,7 +27,9 @@ setLocale(yupLocale);
 const store = configureStore({ reducer });
 initSocket(store);
 
+const userInfo = JSON.parse(localStorage.getItem('userInfo'));
+
 ReactDOM.render(
-  initApp(store, i18n),
+  initApp(store, i18n, userInfo),
   document.getElementById('chat'),
 );

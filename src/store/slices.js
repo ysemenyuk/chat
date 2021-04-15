@@ -1,7 +1,30 @@
 /* eslint-disable no-param-reassign */
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+import axios from 'axios';
+
+import routes from '../routes.js';
 
 import chatAdapter from './adapter.js';
+
+const getAuthHeader = () => {
+  const userInfo = JSON.parse(localStorage.getItem('userInfo'));
+
+  if (userInfo && userInfo.token) {
+    return { Authorization: `Bearer ${userInfo.token}` };
+  }
+
+  return {};
+};
+
+export const fetchUserData = createAsyncThunk('fetchUserData', async () => {
+  const url = routes.usersPath();
+  return axios
+    .get(url, {
+      headers: getAuthHeader(),
+    })
+    .then((resp) => resp.data)
+    .catch((err) => console.log(err));
+});
 
 const channelsSlice = createSlice({
   name: 'channels',
@@ -9,6 +32,7 @@ const channelsSlice = createSlice({
     currentChannelId: null,
   }),
   reducers: {
+    setAll: chatAdapter.setAll,
     selectChannel: (state, action) => {
       state.currentChannelId = action.payload;
     },
@@ -27,17 +51,29 @@ const channelsSlice = createSlice({
       chatAdapter.updateOne(state, { id, changes: { name } });
     },
   },
+  extraReducers: {
+    [fetchUserData.fulfilled]: (state, action) => {
+      // console.log('action.payload', action.payload);
+      const { channels, currentChannelId } = action.payload;
+      state.currentChannelId = currentChannelId;
+      chatAdapter.setAll(state, channels);
+    },
+  },
 });
 
 const messagesSlice = createSlice({
   name: 'messages',
   initialState: chatAdapter.getInitialState(),
   reducers: {
-    addMessage: (state, action) => {
-      chatAdapter.addOne(state, action);
-    },
+    setAll: chatAdapter.setAll,
+    addMessage: chatAdapter.addOne,
   },
   extraReducers: {
+    [fetchUserData.fulfilled]: (state, action) => {
+      // console.log('action.payload', action.payload);
+      const { messages } = action.payload;
+      chatAdapter.setAll(state, messages);
+    },
     [channelsSlice.actions.removeChannel]: (state, action) => {
       const channelMessagesIds = state.ids
         .filter((id) => state.entities[id].channelId === action.payload);

@@ -6,8 +6,9 @@ export default (store) => {
   const socket = io();
 
   socket.on('newMessage', (response) => {
-    const message = response.data.attributes;
-    store.dispatch(messagesActions.addMessage(message));
+    // console.log(response);
+    // const message = response.data.attributes;
+    store.dispatch(messagesActions.addMessage(response));
   });
 
   socket.on('newChannel', (response) => {

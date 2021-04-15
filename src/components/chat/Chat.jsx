@@ -5,7 +5,7 @@ import { Badge } from 'react-bootstrap';
 import ChatForm from './ChatForm.jsx';
 import ChatItem from './ChatItem.jsx';
 
-import { channelsSelectors, messagesSelectors } from '../store/selectors.js';
+import { channelsSelectors, messagesSelectors } from '../../store/selectors.js';
 
 const Chat = () => {
   const messages = useSelector(messagesSelectors.selectByCurrentChannel);
@@ -22,7 +22,7 @@ const Chat = () => {
         <h5>
           Chat
           <span>  </span>
-          <Badge variant="info">{`#${channel.name}`}</Badge>
+          <Badge variant="info">{channel && `#${channel.name}`}</Badge>
         </h5>
       </div>
       <div ref={messagesContainer} className="overflow-auto mt-auto">
