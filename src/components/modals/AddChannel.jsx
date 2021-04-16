@@ -1,16 +1,17 @@
 import React, { useEffect, useRef, useMemo } from 'react';
 import { useSelector } from 'react-redux';
 import { useFormik } from 'formik';
-import axios from 'axios';
+import { io } from 'socket.io-client';
 import { useTranslation } from 'react-i18next';
 
 import {
   Modal, Button, Form, Spinner,
 } from 'react-bootstrap';
 
-import routes from '../../routes.js';
 import { channelsSelectors } from '../../store/selectors.js';
 import channelValidationSchema from './channelValidationSchema.js';
+
+const socket = io();
 
 const AddChannel = (props) => {
   const { onCloseModal } = props;
@@ -32,20 +33,22 @@ const AddChannel = (props) => {
     },
     validationSchema,
     validateOnChange: false,
-    onSubmit: (values, { setFieldError }) => {
-      const url = routes.channelsPath();
-      return axios
-        .post(url, {
-          data: {
-            attributes: { name: values.text },
-          },
-        })
-        .then(() => {
+    onSubmit: (values) => {
+      socket.emit(
+        'newChannel',
+        {
+          name: values.text,
+        },
+        (response) => {
+          console.log(response);
           onCloseModal();
-        })
-        .catch((err) => {
-          setFieldError('network', err.message);
-        });
+        },
+      );
+
+      socket.on('connect_error', (err) => {
+        console.log(err);
+        // setSubmitting(false);
+      });
     },
   });
 

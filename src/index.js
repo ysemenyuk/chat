@@ -25,6 +25,7 @@ if (process.env.NODE_ENV !== 'production') {
 setLocale(yupLocale);
 
 const store = configureStore({ reducer });
+
 initSocket(store);
 
 const userInfo = JSON.parse(localStorage.getItem('userInfo'));

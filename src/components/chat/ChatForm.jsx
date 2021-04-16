@@ -36,7 +36,10 @@ const ChatForm = (props) => {
         },
       );
 
-      // setSubmitting(false);
+      socket.on('connect_error', (err) => {
+        console.log(err);
+        // setSubmitting(false);
+      });
     },
   });
 
@@ -61,19 +64,21 @@ const ChatForm = (props) => {
               isInvalid={formik.errors.text}
             />
 
-            <InputGroup.Append>
+            <InputGroup.Append style={{ width: '15%' }}>
               <Button
                 disabled={formik.isSubmitting || !formik.values.text.trim()}
                 type="submit"
+                className="w-100"
               >
-                {t('send')}
-                <span> </span>
-                <Spinner
-                  style={{ display: formik.isSubmitting ? 'inline-block' : 'none' }}
-                  as="span"
-                  animation="border"
-                  size="sm"
-                />
+                {formik.isSubmitting
+                  ? (
+                    <Spinner
+                      as="span"
+                      animation="border"
+                      size="sm"
+                    />
+                  )
+                  : t('send')}
               </Button>
             </InputGroup.Append>
 

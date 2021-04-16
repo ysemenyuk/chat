@@ -1,13 +1,13 @@
 import React from 'react';
 import { useFormik } from 'formik';
-import axios from 'axios';
+import { io } from 'socket.io-client';
 import { useTranslation } from 'react-i18next';
 
 import {
   Modal, Form, Button, Spinner,
 } from 'react-bootstrap';
 
-import routes from '../../routes.js';
+const socket = io();
 
 const RemoveChannel = (props) => {
   const { modalData, onCloseModal } = props;
@@ -17,16 +17,20 @@ const RemoveChannel = (props) => {
     initialValues: {
       text: modalData.name,
     },
-    onSubmit: (values, { setFieldError }) => {
-      const url = routes.channelPath(modalData.id);
-      return axios
-        .delete(url)
-        .then(() => {
+    onSubmit: () => {
+      socket.emit(
+        'removeChannel',
+        modalData,
+        (response) => {
+          console.log(response);
           onCloseModal();
-        })
-        .catch((err) => {
-          setFieldError('network', err.message);
-        });
+        },
+      );
+
+      socket.on('connect_error', (err) => {
+        console.log(err);
+        // setSubmitting(false);
+      });
     },
   });
 

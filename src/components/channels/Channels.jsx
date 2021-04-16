@@ -42,17 +42,19 @@ const Channels = () => {
         </button>
       </div>
       <ul className="nav flex-column nav-pills nav-fill">
-        {channels.map((channel) => (
-          <li key={channel.id} className="nav-item">
-            <ChannelsItem
-              channel={channel}
-              currentChannel={currentChannel}
-              onSelectChannel={handleSelectChannel}
-              onRemoveChannel={handleRemoveChannel}
-              onRenameChannel={handleRenameChannel}
-            />
-          </li>
-        ))}
+        {channels.length
+          ? channels.map((channel) => (
+            <li key={channel.id} className="nav-item">
+              <ChannelsItem
+                channel={channel}
+                currentChannel={currentChannel}
+                onSelectChannel={handleSelectChannel}
+                onRemoveChannel={handleRemoveChannel}
+                onRenameChannel={handleRenameChannel}
+              />
+            </li>
+          ))
+          : <p>Loading...</p>}
       </ul>
     </>
   );

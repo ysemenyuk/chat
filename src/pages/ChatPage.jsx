@@ -1,6 +1,5 @@
 import React, { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
-
 import { Row, Col } from 'react-bootstrap';
 
 import Channels from '../components/channels/Channels.jsx';
@@ -10,11 +9,10 @@ import Modal from '../components/modals/Modal.jsx';
 import { fetchUserData } from '../store/slices.js';
 
 const ChatPage = () => {
-  console.log('Chat Page');
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(fetchUserData());
+    dispatch(fetchUserData()).catch((err) => console.log(err));
   }, []);
 
   return (

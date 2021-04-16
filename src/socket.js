@@ -12,17 +12,20 @@ export default (store) => {
   });
 
   socket.on('newChannel', (response) => {
-    const channel = response.data.attributes;
-    store.dispatch(channelsActions.addChannel(channel));
-  });
-
-  socket.on('renameChannel', (response) => {
-    const channel = response.data.attributes;
-    store.dispatch(channelsActions.renameChannel(channel));
+    // console.log(response);
+    // const channel = response.data.attributes;
+    store.dispatch(channelsActions.addChannel(response));
   });
 
   socket.on('removeChannel', (response) => {
-    const channelId = response.data.id;
-    store.dispatch(channelsActions.removeChannel(channelId));
+    // console.log(response);
+    // const channelId = response.data.id;
+    store.dispatch(channelsActions.removeChannel(response));
+  });
+
+  socket.on('renameChannel', (response) => {
+    // console.log(response);
+    // const channel = response.data.attributes;
+    store.dispatch(channelsActions.renameChannel(response));
   });
 };

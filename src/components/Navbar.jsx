@@ -1,17 +1,31 @@
-/* eslint-disable object-curly-newline */
 import React, { useContext } from 'react';
 import { Link } from 'react-router-dom';
-import { Button, Navbar, Nav } from 'react-bootstrap';
+import {
+  Button, Navbar, NavDropdown,
+} from 'react-bootstrap';
+import { useTranslation } from 'react-i18next';
 
 import UserContext from '../context/UserContext.js';
 
-const AuthButton = ({ user }) => (user.isLogin()
-  ? <Button onClick={user.logOut}>Log out</Button>
-  : <Button as={Link} to="/login">Log in</Button>
-);
+const AuthButton = ({ user }) => {
+  const { t } = useTranslation();
+  return (user.isLogin()
+    ? <Button onClick={user.logOut}>{t('logout')}</Button>
+    : <Button as={Link} to="/login">{t('login')}</Button>
+  );
+};
 
 const Navbarr = () => {
   const user = useContext(UserContext);
+  const { t, i18n } = useTranslation();
+
+  const selectRu = () => {
+    i18n.changeLanguage('ru');
+  };
+
+  const selectEng = () => {
+    i18n.changeLanguage('en');
+  };
 
   return (
     <Navbar bg="light" expand="lg" className="mb-3">
@@ -20,10 +34,10 @@ const Navbarr = () => {
         Hexlet Chat
       </Navbar.Brand>
 
-      <Nav defaultActiveKey="#Eng" className="mr-3">
-        <Nav.Link href="#Eng">Eng</Nav.Link>
-        <Nav.Link href="#Ru">Ru</Nav.Link>
-      </Nav>
+      <NavDropdown title={t('name')} id="basic-nav-dropdown">
+        <NavDropdown.Item onClick={selectEng}>Eng</NavDropdown.Item>
+        <NavDropdown.Item onClick={selectRu}>Ru</NavDropdown.Item>
+      </NavDropdown>
 
       <AuthButton user={user} />
 

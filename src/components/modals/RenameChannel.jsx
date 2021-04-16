@@ -1,16 +1,17 @@
 import React, { useEffect, useRef, useMemo } from 'react';
 import { useSelector } from 'react-redux';
 import { useFormik } from 'formik';
-import axios from 'axios';
+import { io } from 'socket.io-client';
 import { useTranslation } from 'react-i18next';
 
 import {
   Modal, Form, Button, Spinner,
 } from 'react-bootstrap';
 
-import routes from '../../routes.js';
 import { channelsSelectors } from '../../store/selectors.js';
 import channelValidationSchema from './channelValidationSchema.js';
+
+const socket = io();
 
 const RenameChannel = (props) => {
   const { modalData, onCloseModal } = props;
@@ -38,20 +39,23 @@ const RenameChannel = (props) => {
     },
     validationSchema,
     validateOnChange: false,
-    onSubmit: (values, { setFieldError }) => {
-      const url = routes.channelPath(modalData.id);
-      return axios
-        .patch(url, {
-          data: {
-            attributes: { name: values.text },
-          },
-        })
-        .then(() => {
+    onSubmit: (values) => {
+      socket.emit(
+        'renameChannel',
+        {
+          id: modalData.id,
+          name: values.text,
+        },
+        (response) => {
+          console.log(response);
           onCloseModal();
-        })
-        .catch((err) => {
-          setFieldError('network', err.message);
-        });
+        },
+      );
+
+      socket.on('connect_error', (err) => {
+        console.log(err);
+        // setSubmitting(false);
+      });
     },
   });
 

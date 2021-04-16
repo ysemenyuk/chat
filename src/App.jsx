@@ -29,26 +29,23 @@ const PrivateRoute = ({ children, path }) => {
   );
 };
 
-const App = () => {
-  console.log('app');
-  return (
-    <div className="d-flex flex-column h-100">
-      <Router>
-        <Navbar />
-        <Switch>
-          <Route path="/login">
-            <LoginPage />
-          </Route>
-          <Route path="/signup">
-            <SignupPage />
-          </Route>
-          <PrivateRoute path="/">
-            <ChatPage />
-          </PrivateRoute>
-        </Switch>
-      </Router>
-    </div>
-  );
-};
+const App = () => (
+  <div className="d-flex flex-column h-100">
+    <Router>
+      <Navbar />
+      <Switch>
+        <Route path="/login">
+          <LoginPage />
+        </Route>
+        <Route path="/signup">
+          <SignupPage />
+        </Route>
+        <PrivateRoute path="/">
+          <ChatPage />
+        </PrivateRoute>
+      </Switch>
+    </Router>
+  </div>
+);
 
 export default App;
