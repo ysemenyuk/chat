@@ -47,13 +47,13 @@ const RenameChannel = (props) => {
           name: values.text,
         },
         (response) => {
-          console.log(response);
+          console.log('rename response -', response);
           onCloseModal();
         },
       );
 
       socket.on('connect_error', (err) => {
-        console.log(err);
+        console.log('connect_error', err);
         // setSubmitting(false);
       });
     },

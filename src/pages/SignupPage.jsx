@@ -3,7 +3,7 @@ import React, {
   useEffect, useRef, useContext,
 } from 'react';
 import { useFormik } from 'formik';
-import * as yup from 'yup';
+import * as Yup from 'yup';
 import { Button, Form, Spinner } from 'react-bootstrap';
 import { useLocation, useHistory, Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
@@ -11,12 +11,12 @@ import { useTranslation } from 'react-i18next';
 import UserContext from '../context/UserContext.js';
 import routes from '../routes.js';
 
-const validationSchema = yup.object().shape({
-  username: yup.string().required().min(3).max(20),
-  password: yup.string().required().min(6),
-  confirmpassword: yup.string().required()
-    .oneOf([yup.ref('password'), null], 'Passwords must match'),
-});
+// const validationSchema = Yup.object({
+//   username: Yup.string().required().min(3).max(20),
+//   password: Yup.string().required().min(6),
+//   confirmPassword: Yup.string().required()
+//     .oneOf([Yup.ref('password')], 'Passwords must match'),
+// });
 
 const SingupPage = () => {
   const { t } = useTranslation();
@@ -33,9 +33,14 @@ const SingupPage = () => {
     initialValues: {
       username: '',
       password: '',
-      confirmpassword: '',
+      confirmPassword: '',
     },
-    validationSchema,
+    validationSchema: Yup.object({
+      username: Yup.string().required().min(3).max(20),
+      password: Yup.string().required().min(6, t('toShort', { min: 6 })),
+      confirmPassword: Yup.string().required()
+        .oneOf([Yup.ref('password')], 'Passwords must match'),
+    }),
     validateOnChange: false,
     onSubmit: async (values, { setFieldError }) => {
       try {
@@ -47,10 +52,10 @@ const SingupPage = () => {
         const { from } = location.state || { from: { pathname: '/' } };
         history.replace(from);
       } catch (err) {
-        console.log('err', err);
+        // console.log('catch err -', err);
 
         if (err.isAxiosError && err.response.status === 409) {
-          setFieldError('existUser', 'error');
+          setFieldError('username', 'User already exists');
           inputRef.current.select();
           return;
         }
@@ -59,7 +64,7 @@ const SingupPage = () => {
     },
   });
 
-  console.log('formik.errors', formik.errors);
+  console.log('formik.errors -', formik.errors);
 
   return (
     <div className="container-fluid">
@@ -72,7 +77,6 @@ const SingupPage = () => {
               <Form.Label htmlFor="username">{t('username')}</Form.Label>
               <Form.Control
                 onChange={formik.handleChange}
-                onBlur={formik.handleBlur}
                 value={formik.values.username}
                 name="username"
                 id="username"
@@ -82,6 +86,10 @@ const SingupPage = () => {
                 ref={inputRef}
               />
               <Form.Control.Feedback type="invalid">
+                {t(formik.errors.username?.key, {
+                  min: formik.errors.username?.values?.min,
+                  max: formik.errors.username?.values?.max,
+                })}
                 {formik.errors.username}
               </Form.Control.Feedback>
             </Form.Group>
@@ -91,38 +99,32 @@ const SingupPage = () => {
               <Form.Control
                 type="password"
                 onChange={formik.handleChange}
-                onBlur={formik.handleBlur}
                 value={formik.values.password}
                 name="password"
                 id="password"
                 autoComplete="current-password"
-                isInvalid={formik.touched.password && formik.errors.password}
+                isInvalid={formik.errors.password}
                 required
               />
               <Form.Control.Feedback type="invalid">
-                {formik.touched.password && formik.errors.password
-                  ? formik.errors.password
-                  : null}
+                {t(formik.errors.password)}
               </Form.Control.Feedback>
             </Form.Group>
 
             <Form.Group>
-              <Form.Label htmlFor="password">{t('confirmpassword')}</Form.Label>
+              <Form.Label htmlFor="password">{t('confirmPassword')}</Form.Label>
               <Form.Control
                 type="password"
                 onChange={formik.handleChange}
-                onBlur={formik.handleBlur}
-                value={formik.values.confirmpassword}
-                name="confirmpassword"
-                id="confirmpassword"
+                value={formik.values.confirmPassword}
+                name="confirmPassword"
+                id="confirmPassword"
                 autoComplete="current-password"
-                isInvalid={formik.touched.confirmpassword && formik.errors.confirmpassword}
+                isInvalid={formik.errors.confirmPassword}
                 required
               />
               <Form.Control.Feedback type="invalid">
-                {formik.touched.confirmpassword && formik.errors.confirmpassword
-                  ? formik.errors.confirmpassword
-                  : null}
+                {formik.errors.confirmPassword}
               </Form.Control.Feedback>
             </Form.Group>
 

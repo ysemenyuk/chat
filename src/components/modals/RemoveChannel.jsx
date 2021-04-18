@@ -17,18 +17,19 @@ const RemoveChannel = (props) => {
     initialValues: {
       text: modalData.name,
     },
-    onSubmit: () => {
+    onSubmit: (values, { setFieldError }) => {
       socket.emit(
         'removeChannel',
         modalData,
         (response) => {
-          console.log(response);
+          console.log('remove response -', response);
           onCloseModal();
         },
       );
 
       socket.on('connect_error', (err) => {
-        console.log(err);
+        console.log('connect_error', err);
+        setFieldError('network', 'network error');
         // setSubmitting(false);
       });
     },

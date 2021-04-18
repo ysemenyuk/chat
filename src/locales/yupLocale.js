@@ -6,5 +6,6 @@ export default {
   mixed: {
     required: () => ({ key: 'required' }),
     notOneOf: () => ({ key: 'notOneOf' }),
+    oneOf: 'notOneOf',
   },
 };

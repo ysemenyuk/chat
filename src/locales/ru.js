@@ -5,7 +5,7 @@ export default {
     loginPageError: 'неверные логин или пароль',
     username: 'Имя пользователя',
     password: 'Пароль',
-    confirmpassword: 'Подтвердите пароль',
+    confirmPassword: 'Подтвердите пароль',
     newuser: 'Нет аккаунта?',
     singup: 'Регистрация',
     singupPageTitle: 'Регистрация',
