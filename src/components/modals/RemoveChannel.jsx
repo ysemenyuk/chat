@@ -28,7 +28,7 @@ const RemoveChannel = (props) => {
       );
 
       socket.on('connect_error', (err) => {
-        console.log('connect_error', err);
+        console.log('remove connect_error -', err);
         setFieldError('network', 'network error');
         // setSubmitting(false);
       });

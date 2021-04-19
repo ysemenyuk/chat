@@ -24,6 +24,11 @@ export default (store) => {
     // console.log(response);
     store.dispatch(channelsActions.renameChannel(response));
   });
+
+  socket.on('connect_error', (err) => {
+    console.log('socket connect_error -', err);
+    // setSubmitting(false);
+  });
 };
 
 const newChannel = (values, cb) => {

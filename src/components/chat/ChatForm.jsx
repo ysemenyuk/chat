@@ -37,7 +37,7 @@ const ChatForm = (props) => {
       );
 
       socket.on('connect_error', (err) => {
-        console.log(err);
+        console.log('newMessage connect_error', err);
         // setSubmitting(false);
       });
     },
@@ -60,6 +60,7 @@ const ChatForm = (props) => {
               placeholder={channel && `Message #${channel?.name}`}
               ref={inputRef}
               onChange={formik.handleChange}
+              disabled={formik.isSubmitting}
               value={formik.values.text}
               isInvalid={formik.errors.text}
             />
