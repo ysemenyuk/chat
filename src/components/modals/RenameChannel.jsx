@@ -57,9 +57,10 @@ const RenameChannel = (props) => {
 
       socket.emit('hello', 1, 2, withTimeout(() => {
         console.log('success!');
-      }, () => {
+      }, (response) => {
         console.log('timeout!');
-      }, 1000));
+        console.log('timeout! rename response -', response);
+      }, 10000));
 
       // socket.emit(
       //   'renameChannel',
