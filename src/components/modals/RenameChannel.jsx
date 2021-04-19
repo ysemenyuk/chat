@@ -38,7 +38,7 @@ const RenameChannel = (props) => {
     },
     validationSchema,
     validateOnChange: false,
-    onSubmit: () => {
+    onSubmit: (values) => {
       const withTimeout = (onSuccess, onTimeout, timeout) => {
         // eslint-disable-next-line functional/no-let
         let called = false;
@@ -55,12 +55,14 @@ const RenameChannel = (props) => {
         };
       };
 
-      socket.emit('hello', 1, 2, withTimeout(() => {
-        console.log('success!');
-      }, (response) => {
+      socket.emit('renameChannel', {
+        id: modalData.id,
+        name: values.text,
+      }, withTimeout((args) => {
+        console.log('success!', args);
+      }, () => {
         console.log('timeout!');
-        console.log('timeout! rename response -', response);
-      }, 10000));
+      }, 5000));
 
       // socket.emit(
       //   'renameChannel',
