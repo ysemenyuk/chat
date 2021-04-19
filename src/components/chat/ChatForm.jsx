@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useContext } from 'react';
+import { useSelector } from 'react-redux';
 import { useFormik } from 'formik';
 // import { io } from 'socket.io-client';
 import { useTranslation } from 'react-i18next';
@@ -11,9 +12,10 @@ import UserContext from '../../context/UserContext.js';
 
 const ChatForm = (props) => {
   const user = useContext(UserContext);
-  const { channel } = props;
+  const { currentChannel } = props;
   const { t } = useTranslation();
   const inputRef = useRef();
+  const status = useSelector((state) => state.channels.status);
 
   const formik = useFormik({
     initialValues: {
@@ -23,7 +25,7 @@ const ChatForm = (props) => {
       socket.volatile.emit(
         'newMessage',
         {
-          channelId: channel.id,
+          channelId: currentChannel.id,
           nickname: user.info.username,
           text: values.text,
           time: new Date(),
@@ -39,7 +41,7 @@ const ChatForm = (props) => {
 
   useEffect(() => {
     inputRef.current.focus();
-  }, [formik.values.text, channel]);
+  }, [formik.values.text, currentChannel]);
 
   return (
     <div id="new-message-form" className="mt-3">
@@ -51,7 +53,7 @@ const ChatForm = (props) => {
             <Form.Control
               type="text"
               name="text"
-              placeholder={channel && `Message #${channel?.name}`}
+              placeholder={`Message ${status === 'idle' ? `#${currentChannel?.name}` : ''}`}
               ref={inputRef}
               onChange={formik.handleChange}
               disabled={formik.isSubmitting}

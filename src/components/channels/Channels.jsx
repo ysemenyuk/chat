@@ -11,6 +11,7 @@ const Channels = () => {
   const dispatch = useDispatch();
   const channels = useSelector(channelsSelectors.selectAll);
   const currentChannel = useSelector(channelsSelectors.selectCurrentChannel);
+  const status = useSelector((state) => state.channels.status);
   const { t } = useTranslation();
 
   const handleSelectChannel = (id) => () => {
@@ -42,7 +43,7 @@ const Channels = () => {
         </button>
       </div>
       <ul className="nav flex-column nav-pills nav-fill">
-        {channels.length
+        {status === 'idle'
           ? channels.map((channel) => (
             <li key={channel.id} className="nav-item">
               <ChannelsItem

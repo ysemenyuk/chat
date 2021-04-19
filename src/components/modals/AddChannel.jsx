@@ -17,7 +17,7 @@ import channelValidationSchema from './channelValidationSchema.js';
 const AddChannel = (props) => {
   const { onCloseModal } = props;
   const { t } = useTranslation();
-
+  const connectStatus = useSelector((state) => state.connectStatus.connectStatus);
   const channelsNames = useSelector(channelsSelectors.selectAllNames);
   const validationSchema = useMemo(() => channelValidationSchema(channelsNames),
     [channelsNames]);
@@ -64,15 +64,16 @@ const AddChannel = (props) => {
               onChange={formik.handleChange}
               disabled={formik.isSubmitting}
               value={formik.values.text}
-              isInvalid={!!formik.errors.text}
+              isInvalid={!!formik.errors.text || connectStatus === 'disconnect'}
             />
             <Form.Control.Feedback type="invalid">
               {formik.errors.text && t(formik.errors.text.key)}
+              {connectStatus === 'disconnect' && 'Network error'}
             </Form.Control.Feedback>
           </Form.Group>
 
           <div className="d-flex justify-content-end">
-            <Button variant="secondary" className="mr-1" disabled={formik.isSubmitting} onClick={onCloseModal}>
+            <Button variant="secondary" className="mr-1" disabled={formik.isSubmitting || connectStatus === 'disconnect'} onClick={onCloseModal}>
               {t('cancle')}
             </Button>
             <Button variant="primary" className="mr-1" disabled={formik.isSubmitting} type="submit">

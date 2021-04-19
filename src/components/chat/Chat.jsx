@@ -11,7 +11,8 @@ import { channelsSelectors, messagesSelectors } from '../../store/selectors.js';
 const Chat = () => {
   const { t } = useTranslation();
   const messages = useSelector(messagesSelectors.selectByCurrentChannel);
-  const channel = useSelector(channelsSelectors.selectCurrentChannel);
+  const currentChannel = useSelector(channelsSelectors.selectCurrentChannel);
+  const status = useSelector((state) => state.channels.status);
   const messagesContainer = useRef();
 
   useEffect(() => {
@@ -24,17 +25,17 @@ const Chat = () => {
         <h5>
           {t('chat')}
           {' '}
-          <Badge variant="info">{channel && `#${channel.name}`}</Badge>
+          <Badge variant="info">{status === 'idle' && `#${currentChannel?.name}`}</Badge>
         </h5>
       </div>
       <div ref={messagesContainer} className="overflow-auto mt-auto">
-        {channel
+        {status === 'idle'
           ? messages.map((message) => (
             <ChatItem key={message.id} message={message} />
           ))
           : <p>Loading...</p>}
       </div>
-      <ChatForm channel={channel} />
+      <ChatForm currentChannel={currentChannel} />
     </div>
   );
 };

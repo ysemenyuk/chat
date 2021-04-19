@@ -1,6 +1,6 @@
 import { io } from 'socket.io-client';
 
-import { channelsActions, messagesActions } from './store/slices.js';
+import { channelsActions, messagesActions, connectStatusActions } from './store/slices.js';
 
 export const socket = io({
   timeout: 10000,
@@ -27,25 +27,15 @@ export default (store) => {
     store.dispatch(channelsActions.renameChannel(response));
   });
 
-  socket.on('connect_error', (err) => {
-    console.log('socket connect_error -', err);
+  socket.on('connect', () => {
+    console.log('socket connect');
+    store.dispatch(connectStatusActions.setConnect);
     // setSubmitting(false);
   });
 
-  socket.onAny((event) => {
-    console.log(`got Any ${event}`);
+  socket.on('connect_error', (err) => {
+    console.log('socket connect_error -', err);
+    store.dispatch(connectStatusActions.setDisconnect);
+    // setSubmitting(false);
   });
 };
-
-const newChannel = (values, cb) => {
-  socket.emit(
-    'newChannel',
-    { name: values.text },
-    (response) => {
-      console.log('newChannel response -', response);
-      cb(response);
-    },
-  );
-};
-
-export const api = { newChannel };
