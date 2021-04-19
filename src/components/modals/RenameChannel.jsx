@@ -55,7 +55,7 @@ const RenameChannel = (props) => {
         };
       };
 
-      socket.emit('renameChannel', {
+      socket.volatile.emit('renameChannel', {
         id: modalData.id,
         name: values.text,
       }, withTimeout((resp) => {
