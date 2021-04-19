@@ -52,10 +52,10 @@ const RenameChannel = (props) => {
         },
       );
 
-      socket.on('connect_error', (err) => {
-        console.log('rename connect_error -', err);
-        // setSubmitting(false);
-      });
+      // socket.on('connect_error', (err) => {
+      //   console.log('rename connect_error -', err);
+      //   setSubmitting(false);
+      // });
     },
   });
 

@@ -2,7 +2,9 @@ import { io } from 'socket.io-client';
 
 import { channelsActions, messagesActions } from './store/slices.js';
 
-const socket = io();
+const socket = io({
+  timeout: 20000,
+});
 
 export default (store) => {
   socket.on('newMessage', (response) => {
@@ -28,6 +30,10 @@ export default (store) => {
   socket.on('connect_error', (err) => {
     console.log('socket connect_error -', err);
     // setSubmitting(false);
+  });
+
+  socket.onAny((event) => {
+    console.log(`got Any ${event}`);
   });
 };
 

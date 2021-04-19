@@ -36,10 +36,10 @@ const ChatForm = (props) => {
         },
       );
 
-      socket.on('connect_error', (err) => {
-        console.log('newMessage connect_error', err);
-        // setSubmitting(false);
-      });
+      // socket.on('connect_error', (err) => {
+      //   console.log('newMessage connect_error', err);
+      //   setSubmitting(false);
+      // });
     },
   });
 
