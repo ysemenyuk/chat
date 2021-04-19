@@ -2,8 +2,8 @@ import { io } from 'socket.io-client';
 
 import { channelsActions, messagesActions } from './store/slices.js';
 
-const socket = io({
-  timeout: 20000,
+export const socket = io({
+  timeout: 10000,
 });
 
 export default (store) => {

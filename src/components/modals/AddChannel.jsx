@@ -8,7 +8,7 @@ import {
   Modal, Button, Form, Spinner,
 } from 'react-bootstrap';
 
-import { api } from '../../socket.js';
+import { socket } from '../../socket.js';
 import { channelsSelectors } from '../../store/selectors.js';
 import channelValidationSchema from './channelValidationSchema.js';
 
@@ -35,7 +35,14 @@ const AddChannel = (props) => {
     validationSchema,
     validateOnChange: false,
     onSubmit: (values) => {
-      api.newChannel(values, onCloseModal);
+      socket.emit(
+        'newChannel',
+        { name: values.text },
+        (response) => {
+          console.log('newChannel response -', response);
+          onCloseModal();
+        },
+      );
     },
   });
 

@@ -1,17 +1,16 @@
 import React, { useEffect, useRef, useMemo } from 'react';
 import { useSelector } from 'react-redux';
 import { useFormik } from 'formik';
-import { io } from 'socket.io-client';
+// import { io } from 'socket.io-client';
 import { useTranslation } from 'react-i18next';
 
 import {
   Modal, Form, Button, Spinner,
 } from 'react-bootstrap';
 
+import { socket } from '../../socket.js';
 import { channelsSelectors } from '../../store/selectors.js';
 import channelValidationSchema from './channelValidationSchema.js';
-
-const socket = io();
 
 const RenameChannel = (props) => {
   const { modalData, onCloseModal } = props;
@@ -51,11 +50,6 @@ const RenameChannel = (props) => {
           onCloseModal();
         },
       );
-
-      // socket.on('connect_error', (err) => {
-      //   console.log('rename connect_error -', err);
-      //   setSubmitting(false);
-      // });
     },
   });
 

@@ -1,17 +1,16 @@
 import React, { useEffect, useRef, useContext } from 'react';
 import { useFormik } from 'formik';
-import { io } from 'socket.io-client';
+// import { io } from 'socket.io-client';
 import { useTranslation } from 'react-i18next';
 import {
   Button, Form, Spinner, InputGroup,
 } from 'react-bootstrap';
 
+import { socket } from '../../socket.js';
 import UserContext from '../../context/UserContext.js';
 
 const ChatForm = (props) => {
   const user = useContext(UserContext);
-  const socket = io();
-
   const { channel } = props;
   const { t } = useTranslation();
   const inputRef = useRef();
@@ -30,16 +29,11 @@ const ChatForm = (props) => {
           time: new Date(),
         },
         (response) => {
-          console.log(response.status);
+          console.log('newMessage response -', response);
           setSubmitting(false);
           resetForm();
         },
       );
-
-      // socket.on('connect_error', (err) => {
-      //   console.log('newMessage connect_error', err);
-      //   setSubmitting(false);
-      // });
     },
   });
 

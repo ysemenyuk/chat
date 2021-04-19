@@ -1,13 +1,13 @@
 import React from 'react';
 import { useFormik } from 'formik';
-import { io } from 'socket.io-client';
+// import { io } from 'socket.io-client';
 import { useTranslation } from 'react-i18next';
 
 import {
   Modal, Form, Button, Spinner,
 } from 'react-bootstrap';
 
-const socket = io();
+import { socket } from '../../socket.js';
 
 const RemoveChannel = (props) => {
   const { modalData, onCloseModal } = props;
@@ -26,12 +26,6 @@ const RemoveChannel = (props) => {
           onCloseModal();
         },
       );
-
-      // socket.on('connect_error', (err) => {
-      //   console.log('remove connect_error -', err);
-      //   setFieldError('network', 'network error');
-      //   setSubmitting(false);
-      // });
     },
   });
 
