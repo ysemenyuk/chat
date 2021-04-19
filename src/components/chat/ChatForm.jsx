@@ -20,7 +20,7 @@ const ChatForm = (props) => {
       text: '',
     },
     onSubmit: (values, { setSubmitting, resetForm }) => {
-      socket.emit(
+      socket.volatile.emit(
         'newMessage',
         {
           channelId: channel.id,

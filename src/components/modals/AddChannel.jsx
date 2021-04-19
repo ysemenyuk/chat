@@ -35,7 +35,7 @@ const AddChannel = (props) => {
     validationSchema,
     validateOnChange: false,
     onSubmit: (values) => {
-      socket.emit(
+      socket.volatile.emit(
         'newChannel',
         { name: values.text },
         (response) => {
