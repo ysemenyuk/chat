@@ -29,13 +29,13 @@ export default (store) => {
 
   socket.on('connect', () => {
     console.log('socket connect');
-    store.dispatch(connectStatusActions.setConnect);
+    store.dispatch(connectStatusActions.setConnect());
     // setSubmitting(false);
   });
 
   socket.on('connect_error', (err) => {
     console.log('socket connect_error -', err);
-    store.dispatch(connectStatusActions.setDisconnect);
+    store.dispatch(connectStatusActions.setDisconnect());
     // setSubmitting(false);
   });
 };

@@ -17,7 +17,7 @@ import channelValidationSchema from './channelValidationSchema.js';
 const AddChannel = (props) => {
   const { onCloseModal } = props;
   const { t } = useTranslation();
-  const connectStatus = useSelector((state) => state.connectStatus.connectStatus);
+  const connectStatus = useSelector((state) => state.connect.status);
   const channelsNames = useSelector(channelsSelectors.selectAllNames);
   const validationSchema = useMemo(() => channelValidationSchema(channelsNames),
     [channelsNames]);

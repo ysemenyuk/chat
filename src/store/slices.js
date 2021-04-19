@@ -112,15 +112,15 @@ const modalSlice = createSlice({
   },
 });
 
-const connectStatusSlice = createSlice({
+const connectSlice = createSlice({
   name: 'networkStatus',
-  initialState: { connectStatus: 'connected' },
+  initialState: { status: 'connected' },
   reducers: {
     setDisconnect: (state) => {
-      state.connectStatus = 'disconnected';
+      state.status = 'disconnected';
     },
     setConnect: (state) => {
-      state.connectStatus = 'çonnected';
+      state.status = 'çonnected';
     },
   },
 });
@@ -128,11 +128,11 @@ const connectStatusSlice = createSlice({
 export const channelsActions = channelsSlice.actions;
 export const messagesActions = messagesSlice.actions;
 export const modalActions = modalSlice.actions;
-export const connectStatusActions = connectStatusSlice.actions;
+export const connectStatusActions = connectSlice.actions;
 
 export default {
   channels: channelsSlice.reducer,
   messages: messagesSlice.reducer,
   modal: modalSlice.reducer,
-  connectStatus: connectStatusSlice.reducer,
+  connect: connectSlice.reducer,
 };
