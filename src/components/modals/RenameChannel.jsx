@@ -1,4 +1,6 @@
-import React, { useEffect, useRef, useMemo } from 'react';
+import React, {
+  useEffect, useRef, useMemo, useContext,
+} from 'react';
 import { useSelector } from 'react-redux';
 import { useFormik } from 'formik';
 // import { io } from 'socket.io-client';
@@ -8,19 +10,20 @@ import {
   Modal, Form, Button, Spinner,
 } from 'react-bootstrap';
 
-import { socket } from '../../socket.js';
+import SocketContext from '../../context/SocketContext.js';
 import { channelsSelectors } from '../../store/selectors.js';
-import channelValidationSchema from './channelValidationSchema.js';
+import channelNameValidationSchema from './channelNameValidationSchema.js';
 
 const RenameChannel = (props) => {
   const { modalData, onCloseModal } = props;
+  const socket = useContext(SocketContext);
   const { t } = useTranslation();
 
   const inputRef = useRef();
 
   const channelsNames = useSelector(channelsSelectors.selectAllNames);
   const validationSchema = useMemo(
-    () => channelValidationSchema(channelsNames),
+    () => channelNameValidationSchema(channelsNames),
     [channelsNames],
   );
 
@@ -38,46 +41,18 @@ const RenameChannel = (props) => {
     },
     validationSchema,
     validateOnChange: false,
-    onSubmit: (values, { setSubmitting, setFieldError }) => {
-      const withTimeout = (onSuccess, onTimeout, timeout) => {
-        // eslint-disable-next-line functional/no-let
-        let called = false;
-        const timer = setTimeout(() => {
-          if (called) return;
-          called = true;
-          onTimeout();
-        }, timeout);
-        return (resp) => {
-          if (called) return;
-          called = true;
-          clearTimeout(timer);
-          onSuccess(resp);
-        };
-      };
-
-      socket.volatile.emit('renameChannel', {
-        id: modalData.id,
-        name: values.text,
-      }, withTimeout((resp) => {
-        console.log('success!', resp);
-        onCloseModal();
-      }, () => {
-        console.log('timeout!');
-        setFieldError('network', 'Network error');
-        setSubmitting(false);
-      }, 5000));
-
-      // socket.emit(
-      //   'renameChannel',
-      //   {
-      //     id: modalData.id,
-      //     name: values.text,
-      //   },
-      //   (response) => {
-      //     console.log('rename response -', response);
-      //     onCloseModal();
-      //   },
-      // );
+    onSubmit: (values) => {
+      socket.volatile.emit(
+        'renameChannel',
+        {
+          id: modalData.id,
+          name: values.text,
+        },
+        (response) => {
+          console.log('rename response -', response);
+          onCloseModal();
+        },
+      );
     },
   });
 
@@ -98,11 +73,10 @@ const RenameChannel = (props) => {
               onChange={formik.handleChange}
               value={formik.values.text}
               disabled={formik.isSubmitting}
-              isInvalid={!!formik.errors.text || !!formik.errors.network}
+              isInvalid={!!formik.errors.text}
             />
             <Form.Control.Feedback type="invalid">
-              {formik.errors.text && t(formik.errors.text.key)}
-              {formik.errors.network}
+              {formik.errors.text}
             </Form.Control.Feedback>
           </Form.Group>
 

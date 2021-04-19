@@ -2,7 +2,7 @@ export default {
   translation: {
     name: 'Eng',
     loginPageTitle: 'Log In',
-    loginPageError: 'the username or password is incorrect',
+    loginPageError: 'The username or password is incorrect',
     username: 'Username',
     password: 'Password',
     confirmPassword: 'Confirm password',
@@ -26,8 +26,10 @@ export default {
     send: 'Send',
     confirm: 'Confirm',
     required: 'Required field!',
-    toShort: 'Must be more than {{min}} characters!',
-    toLong: 'Must be less than {{max}} characters!',
     notOneOf: 'Must be unique',
+    stringMin: 'Must be more than {{min}} characters!',
+    stringMax: 'Must be less than {{max}} characters!',
+    oneOfconfirmPassword: 'Passwords should match!',
+    existingUser: 'User already exists',
   },
 };

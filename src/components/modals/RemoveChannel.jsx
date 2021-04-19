@@ -1,16 +1,16 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { useFormik } from 'formik';
-// import { io } from 'socket.io-client';
 import { useTranslation } from 'react-i18next';
 
 import {
   Modal, Form, Button, Spinner,
 } from 'react-bootstrap';
 
-import { socket } from '../../socket.js';
+import SocketContext from '../../context/SocketContext.js';
 
 const RemoveChannel = (props) => {
   const { modalData, onCloseModal } = props;
+  const socket = useContext(SocketContext);
   const { t } = useTranslation();
 
   const formik = useFormik({

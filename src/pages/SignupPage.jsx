@@ -11,13 +11,6 @@ import { useTranslation } from 'react-i18next';
 import UserContext from '../context/UserContext.js';
 import routes from '../routes.js';
 
-// const validationSchema = Yup.object({
-//   username: Yup.string().required().min(3).max(20),
-//   password: Yup.string().required().min(6),
-//   confirmPassword: Yup.string().required()
-//     .oneOf([Yup.ref('password')], 'Passwords must match'),
-// });
-
 const SingupPage = () => {
   const { t } = useTranslation();
   const user = useContext(UserContext);
@@ -37,9 +30,9 @@ const SingupPage = () => {
     },
     validationSchema: Yup.object({
       username: Yup.string().required().min(3).max(20),
-      password: Yup.string().required().min(6, t('toShort', { min: 6 })),
+      password: Yup.string().required().min(6),
       confirmPassword: Yup.string().required()
-        .oneOf([Yup.ref('password')], 'Passwords must match'),
+        .oneOf([Yup.ref('password')]),
     }),
     validateOnChange: false,
     onSubmit: async (values, { setFieldError }) => {
@@ -55,7 +48,7 @@ const SingupPage = () => {
         // console.log('catch err -', err);
 
         if (err.isAxiosError && err.response.status === 409) {
-          setFieldError('username', 'User already exists');
+          setFieldError('username', t('existingUser'));
           inputRef.current.select();
           return;
         }
@@ -86,10 +79,6 @@ const SingupPage = () => {
                 ref={inputRef}
               />
               <Form.Control.Feedback type="invalid">
-                {t(formik.errors.username?.key, {
-                  min: formik.errors.username?.values?.min,
-                  max: formik.errors.username?.values?.max,
-                })}
                 {formik.errors.username}
               </Form.Control.Feedback>
             </Form.Group>
@@ -107,7 +96,7 @@ const SingupPage = () => {
                 required
               />
               <Form.Control.Feedback type="invalid">
-                {t(formik.errors.password)}
+                {formik.errors.password}
               </Form.Control.Feedback>
             </Form.Group>
 

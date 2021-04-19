@@ -4,7 +4,7 @@ import { Row, Col } from 'react-bootstrap';
 
 import Channels from '../components/channels/Channels.jsx';
 import Chat from '../components/chat/Chat.jsx';
-import Modal from '../components/modals/Modal.jsx';
+import Modal from '../components/modals/index.jsx';
 
 import { fetchUserData } from '../store/slices.js';
 

@@ -8,8 +8,6 @@ const ChannelsItem = (props) => {
     onRemoveChannel, onRenameChannel,
   } = props;
 
-  // console.log('ChannelsItem channel -', channel);
-
   const { id, name, removable } = channel;
   const currentClass = currentChannel.id === id ? 'btn-primary' : 'btn-light';
 

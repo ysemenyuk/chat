@@ -7,15 +7,17 @@ import {
   Button, Form, Spinner, InputGroup,
 } from 'react-bootstrap';
 
-import { socket } from '../../socket.js';
+// import { socket } from '../../socket.js';
+import SocketContext from '../../context/SocketContext.js';
 import UserContext from '../../context/UserContext.js';
 
 const ChatForm = (props) => {
   const user = useContext(UserContext);
+  const socket = useContext(SocketContext);
   const { currentChannel } = props;
   const { t } = useTranslation();
   const inputRef = useRef();
-  const status = useSelector((state) => state.channels.status);
+  const fetchStatus = useSelector((state) => state.channels.fetchStatus);
 
   const formik = useFormik({
     initialValues: {
@@ -53,7 +55,7 @@ const ChatForm = (props) => {
             <Form.Control
               type="text"
               name="text"
-              placeholder={`Message ${status === 'idle' ? `#${currentChannel?.name}` : ''}`}
+              placeholder={`Message ${fetchStatus === 'idle' ? `#${currentChannel?.name}` : ''}`}
               ref={inputRef}
               onChange={formik.handleChange}
               disabled={formik.isSubmitting}

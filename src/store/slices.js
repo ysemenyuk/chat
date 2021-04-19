@@ -30,7 +30,7 @@ const channelsSlice = createSlice({
   name: 'channels',
   initialState: chatAdapter.getInitialState({
     currentChannelId: null,
-    status: 'idle',
+    fetchStatus: 'idle',
   }),
   reducers: {
     setAll: chatAdapter.setAll,
@@ -55,17 +55,17 @@ const channelsSlice = createSlice({
   },
   extraReducers: {
     [fetchUserData.pending]: (state) => {
-      state.status = 'loading';
+      state.fetchStatus = 'loading';
     },
     [fetchUserData.fulfilled]: (state, action) => {
       // console.log('fulfilled action.payload', action.payload);
       const { channels, currentChannelId } = action.payload;
       chatAdapter.setAll(state, channels);
       state.currentChannelId = currentChannelId;
-      state.status = 'idle';
+      state.fetchStatus = 'idle';
     },
     [fetchUserData.rejected]: (state) => {
-      state.status = 'idle';
+      state.fetchStatus = 'idle';
     },
   },
 });

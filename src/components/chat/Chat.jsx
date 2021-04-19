@@ -12,7 +12,7 @@ const Chat = () => {
   const { t } = useTranslation();
   const messages = useSelector(messagesSelectors.selectByCurrentChannel);
   const currentChannel = useSelector(channelsSelectors.selectCurrentChannel);
-  const status = useSelector((state) => state.channels.status);
+  const fetchStatus = useSelector((state) => state.channels.fetchStatus);
   const messagesContainer = useRef();
 
   useEffect(() => {
@@ -25,11 +25,11 @@ const Chat = () => {
         <h5>
           {t('chat')}
           {' '}
-          <Badge variant="info">{status === 'idle' && `#${currentChannel?.name}`}</Badge>
+          <Badge variant="info">{fetchStatus === 'idle' && `#${currentChannel?.name}`}</Badge>
         </h5>
       </div>
       <div ref={messagesContainer} className="overflow-auto mt-auto">
-        {status === 'idle'
+        {fetchStatus === 'idle'
           ? messages.map((message) => (
             <ChatItem key={message.id} message={message} />
           ))

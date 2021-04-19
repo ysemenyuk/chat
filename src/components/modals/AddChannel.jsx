@@ -1,25 +1,25 @@
-import React, { useEffect, useRef, useMemo } from 'react';
+import React, {
+  useEffect, useRef, useMemo, useContext,
+} from 'react';
 import { useSelector } from 'react-redux';
 import { useFormik } from 'formik';
-// import { io } from 'socket.io-client';
 import { useTranslation } from 'react-i18next';
 
 import {
   Modal, Button, Form, Spinner,
 } from 'react-bootstrap';
 
-import { socket } from '../../socket.js';
+import SocketContext from '../../context/SocketContext.js';
 import { channelsSelectors } from '../../store/selectors.js';
-import channelValidationSchema from './channelValidationSchema.js';
-
-// const socket = io();
+import channelNameValidationSchema from './channelNameValidationSchema.js';
 
 const AddChannel = (props) => {
   const { onCloseModal } = props;
   const { t } = useTranslation();
+  const socket = useContext(SocketContext);
   const connectStatus = useSelector((state) => state.connect.status);
   const channelsNames = useSelector(channelsSelectors.selectAllNames);
-  const validationSchema = useMemo(() => channelValidationSchema(channelsNames),
+  const validationSchema = useMemo(() => channelNameValidationSchema(channelsNames),
     [channelsNames]);
 
   const inputRef = useRef();
@@ -46,6 +46,8 @@ const AddChannel = (props) => {
     },
   });
 
+  // console.log('formik.errors -', formik.errors);
+
   return (
     <>
       <Modal.Header closeButton>
@@ -67,7 +69,7 @@ const AddChannel = (props) => {
               isInvalid={!!formik.errors.text || connectStatus === 'disconnect'}
             />
             <Form.Control.Feedback type="invalid">
-              {formik.errors.text && t(formik.errors.text.key)}
+              {formik.errors.text}
               {connectStatus === 'disconnect' && 'Network error'}
             </Form.Control.Feedback>
           </Form.Group>
