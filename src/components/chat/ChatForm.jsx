@@ -1,13 +1,11 @@
 import React, { useEffect, useRef, useContext } from 'react';
 import { useSelector } from 'react-redux';
 import { useFormik } from 'formik';
-// import { io } from 'socket.io-client';
 import { useTranslation } from 'react-i18next';
 import {
   Button, Form, Spinner, InputGroup,
 } from 'react-bootstrap';
 
-// import { socket } from '../../socket.js';
 import SocketContext from '../../context/SocketContext.js';
 import UserContext from '../../context/UserContext.js';
 

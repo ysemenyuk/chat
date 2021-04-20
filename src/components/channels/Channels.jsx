@@ -8,11 +8,11 @@ import { channelsActions, modalActions } from '../../store/slices.js';
 import ChannelsItem from './ChannelsItem.jsx';
 
 const Channels = () => {
+  const { t } = useTranslation();
   const dispatch = useDispatch();
   const channels = useSelector(channelsSelectors.selectAll);
   const currentChannel = useSelector(channelsSelectors.selectCurrentChannel);
   const fetchStatus = useSelector((state) => state.channels.fetchStatus);
-  const { t } = useTranslation();
 
   const handleSelectChannel = (id) => () => {
     dispatch(channelsActions.selectChannel(id));

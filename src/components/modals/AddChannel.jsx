@@ -66,16 +66,16 @@ const AddChannel = (props) => {
               onChange={formik.handleChange}
               disabled={formik.isSubmitting}
               value={formik.values.text}
-              isInvalid={!!formik.errors.text || connectStatus === 'disconnect'}
+              isInvalid={!!formik.errors.text || connectStatus === 'disconnected'}
             />
             <Form.Control.Feedback type="invalid">
               {formik.errors.text}
-              {connectStatus === 'disconnect' && 'Network error'}
+              {connectStatus === 'disconnected' && 'Network error'}
             </Form.Control.Feedback>
           </Form.Group>
 
           <div className="d-flex justify-content-end">
-            <Button variant="secondary" className="mr-1" disabled={formik.isSubmitting || connectStatus === 'disconnect'} onClick={onCloseModal}>
+            <Button variant="secondary" className="mr-1" disabled={formik.isSubmitting || connectStatus === 'disconnected'} onClick={onCloseModal}>
               {t('cancle')}
             </Button>
             <Button variant="primary" className="mr-1" disabled={formik.isSubmitting} type="submit">

@@ -12,7 +12,8 @@ const ChatPage = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(fetchUserData()).catch((err) => console.log(err));
+    dispatch(fetchUserData())
+      .catch((err) => console.log(err.message));
   }, []);
 
   return (
