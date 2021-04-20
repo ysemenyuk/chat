@@ -17,7 +17,9 @@ const AddChannel = (props) => {
   const { onCloseModal } = props;
   const { t } = useTranslation();
   const socket = useContext(SocketContext);
+
   const channelsNames = useSelector(channelsSelectors.selectAllNames);
+
   const validationSchema = useMemo(() => channelNameValidationSchema(channelsNames),
     [channelsNames]);
 
@@ -44,8 +46,6 @@ const AddChannel = (props) => {
       );
     },
   });
-
-  // console.log('formik.errors -', formik.errors);
 
   return (
     <>

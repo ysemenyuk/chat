@@ -6,10 +6,10 @@ import {
   Button, Form, Spinner, InputGroup,
 } from 'react-bootstrap';
 
-import useSocket from '../../hooks/useSocket.js';
-import useAuth from '../../hooks/useAuth.js';
-import useThunkStatus from '../../hooks/useThunkStatus.js';
-import { fetchUserData } from '../../store/thunksSlice.js';
+import useSocket from '../hooks/useSocket.js';
+import useAuth from '../hooks/useAuth.js';
+import useThunkStatus from '../hooks/useThunkStatus.js';
+import { fetchUserData } from '../store/thunksSlice.js';
 
 const NewMessageForm = (props) => {
   const { currentChannel } = props;

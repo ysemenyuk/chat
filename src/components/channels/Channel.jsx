@@ -3,24 +3,24 @@ import { useTranslation } from 'react-i18next';
 
 const Channel = (props) => {
   const { t } = useTranslation();
+
   const {
-    channel, currentChannel, onSelectChannel,
-    onRemoveChannel, onRenameChannel,
+    channel, currentChannel,
+    onSelectChannel, onRemoveChannel, onRenameChannel,
   } = props;
 
-  const { id, name, removable } = channel;
-  const currentClass = currentChannel.id === id ? 'btn-primary' : 'btn-light';
+  const currentClass = currentChannel.id === channel.id ? 'btn-primary' : 'btn-light';
 
-  if (removable === false) {
+  if (channel.removable === false) {
     return (
       <button
-        onClick={onSelectChannel(id)}
+        onClick={onSelectChannel(channel.id)}
         type="button"
         className={`btn ${currentClass} nav-link btn-block mb-2 text-left`}
       >
         #
         {' '}
-        {name}
+        {channel.name}
       </button>
     );
   }
@@ -28,13 +28,13 @@ const Channel = (props) => {
   return (
     <div className="btn-group d-flex mb-2 dropdown">
       <button
-        onClick={onSelectChannel(id)}
+        onClick={onSelectChannel(channel.id)}
         type="button"
         className={`btn ${currentClass} text-left flex-grow-1 nav-link`}
       >
         #
         {' '}
-        {name}
+        {channel.name}
       </button>
       <button
         type="button"

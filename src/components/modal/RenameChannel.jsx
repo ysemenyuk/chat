@@ -3,7 +3,6 @@ import React, {
 } from 'react';
 import { useSelector } from 'react-redux';
 import { useFormik } from 'formik';
-// import { io } from 'socket.io-client';
 import { useTranslation } from 'react-i18next';
 
 import {
@@ -16,16 +15,17 @@ import channelNameValidationSchema from './channelNameValidationSchema.js';
 
 const RenameChannel = (props) => {
   const { modalData, onCloseModal } = props;
-  const socket = useContext(SocketContext);
   const { t } = useTranslation();
-
-  const inputRef = useRef();
+  const socket = useContext(SocketContext);
 
   const channelsNames = useSelector(channelsSelectors.selectAllNames);
+
   const validationSchema = useMemo(
     () => channelNameValidationSchema(channelsNames),
     [channelsNames],
   );
+
+  const inputRef = useRef();
 
   useEffect(() => {
     inputRef?.current.select();

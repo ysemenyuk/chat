@@ -2,7 +2,7 @@ import { configureStore } from '@reduxjs/toolkit';
 
 import { channelsReducer } from '../components/channels/channelsSlice.js';
 import { messagesReducer } from '../components/messages/messagesSlice.js';
-import { modalReducer } from '../components/modals/modalSlice.js';
+import { modalReducer } from '../components/modal/modalSlice.js';
 import { connectReducer } from './connectSlice.js';
 import { thunksReducer } from './thunksSlice.js';
 

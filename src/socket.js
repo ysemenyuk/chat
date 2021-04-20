@@ -2,7 +2,7 @@ import { io } from 'socket.io-client';
 
 // import { channelsActions, messagesActions, connectActions } from './store/slices.js';
 import { channelsActions } from './components/channels/channelsSlice.js';
-import { messagesActions } from './components/chat/chatSlice.js';
+import { messagesActions } from './components/messages/messagesSlice.js';
 import { connectActions } from './store/connectSlice.js';
 
 export default (store) => {

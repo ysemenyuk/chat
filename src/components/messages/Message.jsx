@@ -4,7 +4,9 @@ import { Badge } from 'react-bootstrap';
 
 const Message = (props) => {
   const { message: { nickname, text, time } } = props;
+
   const timeForPrint = new Date(time).toLocaleTimeString();
+
   return (
     <div>
       <div>

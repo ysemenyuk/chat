@@ -10,8 +10,8 @@ import SocketContext from '../../context/SocketContext.js';
 
 const RemoveChannel = (props) => {
   const { modalData, onCloseModal } = props;
-  const socket = useContext(SocketContext);
   const { t } = useTranslation();
+  const socket = useContext(SocketContext);
 
   const formik = useFormik({
     initialValues: {
