@@ -1,7 +1,7 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 
-const ChannelsItem = (props) => {
+const Channel = (props) => {
   const { t } = useTranslation();
   const {
     channel, currentChannel, onSelectChannel,
@@ -53,4 +53,4 @@ const ChannelsItem = (props) => {
   );
 };
 
-export default ChannelsItem;
+export default Channel;

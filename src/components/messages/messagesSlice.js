@@ -1,31 +1,31 @@
 /* eslint-disable no-param-reassign */
 import { createSlice, createSelector } from '@reduxjs/toolkit';
 
-import chatAdapter from '../../store/adapter.js';
+import adapter from '../../store/adapter.js';
 import channelsSlice, { channelsSelectors } from '../channels/channelsSlice.js';
 import { fetchUserData } from '../../store/thunksSlice.js';
 
 const messagesSlice = createSlice({
   name: 'messages',
-  initialState: chatAdapter.getInitialState(),
+  initialState: adapter.getInitialState(),
   reducers: {
-    setAll: chatAdapter.setAll,
-    addMessage: chatAdapter.addOne,
+    setAll: adapter.setAll,
+    addMessage: adapter.addOne,
   },
   extraReducers: {
     [fetchUserData.fulfilled]: (state, action) => {
       const { messages } = action.payload;
-      chatAdapter.setAll(state, messages);
+      adapter.setAll(state, messages);
     },
     [channelsSlice.actions.removeChannel]: (state, action) => {
       const channelMessagesIds = state.ids
         .filter((id) => state.entities[id].channelId === action.payload);
-      chatAdapter.removeMany(state, channelMessagesIds);
+      adapter.removeMany(state, channelMessagesIds);
     },
   },
 });
 
-const adapterMessagesSelectors = chatAdapter.getSelectors((state) => state.messages);
+const adapterMessagesSelectors = adapter.getSelectors((state) => state.messages);
 
 const selectByCurrentChannel = createSelector(
   adapterMessagesSelectors.selectAll,

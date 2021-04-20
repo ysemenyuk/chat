@@ -17,7 +17,6 @@ const AddChannel = (props) => {
   const { onCloseModal } = props;
   const { t } = useTranslation();
   const socket = useContext(SocketContext);
-  const connectStatus = useSelector((state) => state.connect.status);
   const channelsNames = useSelector(channelsSelectors.selectAllNames);
   const validationSchema = useMemo(() => channelNameValidationSchema(channelsNames),
     [channelsNames]);
@@ -66,11 +65,10 @@ const AddChannel = (props) => {
               onChange={formik.handleChange}
               disabled={formik.isSubmitting}
               value={formik.values.text}
-              isInvalid={!!formik.errors.text || connectStatus === 'disconnected'}
+              isInvalid={!!formik.errors.text}
             />
             <Form.Control.Feedback type="invalid">
               {formik.errors.text}
-              {connectStatus === 'disconnected' && 'Network error'}
             </Form.Control.Feedback>
           </Form.Group>
 
@@ -78,7 +76,7 @@ const AddChannel = (props) => {
             <Button variant="secondary" className="mr-1" disabled={formik.isSubmitting} onClick={onCloseModal}>
               {t('cancle')}
             </Button>
-            <Button variant="primary" className="mr-1" disabled={formik.isSubmitting || connectStatus === 'disconnected'} type="submit">
+            <Button variant="primary" className="mr-1" disabled={formik.isSubmitting} type="submit">
               {t('submit')}
               {' '}
               <Spinner

@@ -1,5 +1,5 @@
 import { createEntityAdapter } from '@reduxjs/toolkit';
 
-const chatAdapter = createEntityAdapter();
+const adapter = createEntityAdapter();
 
-export default chatAdapter;
+export default adapter;

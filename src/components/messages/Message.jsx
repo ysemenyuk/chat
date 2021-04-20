@@ -2,7 +2,7 @@
 import React from 'react';
 import { Badge } from 'react-bootstrap';
 
-const ChatItem = (props) => {
+const Message = (props) => {
   const { message: { nickname, text, time } } = props;
   const timeForPrint = new Date(time).toLocaleTimeString();
   return (
@@ -19,4 +19,4 @@ const ChatItem = (props) => {
   );
 };
 
-export default ChatItem;
+export default Message;

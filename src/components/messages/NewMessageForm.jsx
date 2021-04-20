@@ -11,7 +11,7 @@ import useAuth from '../../hooks/useAuth.js';
 import useThunkStatus from '../../hooks/useThunkStatus.js';
 import { fetchUserData } from '../../store/thunksSlice.js';
 
-const ChatForm = (props) => {
+const NewMessageForm = (props) => {
   const { currentChannel } = props;
   const { t } = useTranslation();
   const user = useAuth();
@@ -96,4 +96,4 @@ const ChatForm = (props) => {
   );
 };
 
-export default ChatForm;
+export default NewMessageForm;

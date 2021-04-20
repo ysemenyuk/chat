@@ -5,7 +5,7 @@ import { useTranslation } from 'react-i18next';
 import { channelsActions, channelsSelectors } from './channelsSlice.js';
 import { modalActions } from '../modals/modalSlice.js';
 
-import ChannelsItem from './ChannelsItem.jsx';
+import Channel from './Channel.jsx';
 import useThunkStatus from '../../hooks/useThunkStatus.js';
 import { fetchUserData } from '../../store/thunksSlice.js';
 
@@ -50,7 +50,7 @@ const Channels = () => {
         {userData.isSuccess
           ? channels.map((channel) => (
             <li key={channel.id} className="nav-item">
-              <ChannelsItem
+              <Channel
                 channel={channel}
                 currentChannel={currentChannel}
                 onSelectChannel={handleSelectChannel}

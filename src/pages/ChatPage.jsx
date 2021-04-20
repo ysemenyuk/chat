@@ -2,8 +2,8 @@ import React, { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { Row, Col } from 'react-bootstrap';
 
-import Channels from '../components/channels/Channels.jsx';
-import Chat from '../components/chat/Chat.jsx';
+import Channels from '../components/channels/ChannelsCol.jsx';
+import Chat from '../components/messages/MessagesCol.jsx';
 import Modal from '../components/modals/index.jsx';
 
 import { fetchUserData } from '../store/thunksSlice.js';
