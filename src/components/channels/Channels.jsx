@@ -15,8 +15,6 @@ const Channels = () => {
   const currentChannel = useSelector(channelsSelectors.selectCurrentChannel);
   const fetchUserData = useThunkStatus('fetchUserData');
 
-  console.log('fetchUserData -', fetchUserData);
-
   const handleSelectChannel = (id) => () => {
     dispatch(channelsActions.selectChannel(id));
   };

@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useContext } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { useSelector } from 'react-redux';
 import { useFormik } from 'formik';
 import { useTranslation } from 'react-i18next';
@@ -6,15 +6,15 @@ import {
   Button, Form, Spinner, InputGroup,
 } from 'react-bootstrap';
 
-import SocketContext from '../../context/SocketContext.js';
-import UserContext from '../../context/UserContext.js';
+import useSocket from '../../hooks/useSocket.js';
+import useAuth from '../../hooks/useAuth.js';
 import useThunkStatus from '../../hooks/useThunkStatus.js';
 
 const ChatForm = (props) => {
   const { currentChannel } = props;
   const { t } = useTranslation();
-  const user = useContext(UserContext);
-  const socket = useContext(SocketContext);
+  const user = useAuth();
+  const socket = useSocket();
   const inputRef = useRef();
   const fetchUserData = useThunkStatus('fetchUserData');
   const connectStatus = useSelector((state) => state.connect.status);
