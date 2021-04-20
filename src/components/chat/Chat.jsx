@@ -7,12 +7,14 @@ import ChatForm from './ChatForm.jsx';
 import ChatItem from './ChatItem.jsx';
 
 import { channelsSelectors, messagesSelectors } from '../../store/selectors.js';
+import useThunkStatus from '../../hooks/useThunkStatus.js';
 
 const Chat = () => {
   const { t } = useTranslation();
   const messages = useSelector(messagesSelectors.selectByCurrentChannel);
   const currentChannel = useSelector(channelsSelectors.selectCurrentChannel);
-  const fetchStatus = useSelector((state) => state.channels.fetchStatus);
+  const fetchUserData = useThunkStatus('fetchUserData');
+
   const messagesContainer = useRef();
 
   useEffect(() => {
@@ -25,11 +27,11 @@ const Chat = () => {
         <h5>
           {t('chat')}
           {' '}
-          <Badge variant="info">{fetchStatus === 'idle' && `#${currentChannel?.name}`}</Badge>
+          <Badge variant="info">{fetchUserData.isSuccess && `#${currentChannel?.name}`}</Badge>
         </h5>
       </div>
       <div ref={messagesContainer} className="overflow-auto mt-auto">
-        {fetchStatus === 'idle'
+        {fetchUserData.isSuccess
           ? messages.map((message) => (
             <ChatItem key={message.id} message={message} />
           ))

@@ -6,13 +6,16 @@ import { channelsSelectors } from '../../store/selectors.js';
 import { channelsActions, modalActions } from '../../store/slices.js';
 
 import ChannelsItem from './ChannelsItem.jsx';
+import useThunkStatus from '../../hooks/useThunkStatus.js';
 
 const Channels = () => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
   const channels = useSelector(channelsSelectors.selectAll);
   const currentChannel = useSelector(channelsSelectors.selectCurrentChannel);
-  const fetchStatus = useSelector((state) => state.channels.fetchStatus);
+  const fetchUserData = useThunkStatus('fetchUserData');
+
+  console.log('fetchUserData -', fetchUserData);
 
   const handleSelectChannel = (id) => () => {
     dispatch(channelsActions.selectChannel(id));
@@ -43,7 +46,7 @@ const Channels = () => {
         </button>
       </div>
       <ul className="nav flex-column nav-pills nav-fill">
-        {fetchStatus === 'idle'
+        {fetchUserData.isSuccess
           ? channels.map((channel) => (
             <li key={channel.id} className="nav-item">
               <ChannelsItem

@@ -30,7 +30,6 @@ const channelsSlice = createSlice({
   name: 'channels',
   initialState: chatAdapter.getInitialState({
     currentChannelId: null,
-    fetchStatus: 'idle',
   }),
   reducers: {
     setAll: chatAdapter.setAll,
@@ -54,18 +53,10 @@ const channelsSlice = createSlice({
     },
   },
   extraReducers: {
-    [fetchUserData.pending]: (state) => {
-      state.fetchStatus = 'loading';
-    },
     [fetchUserData.fulfilled]: (state, action) => {
-      // console.log('fulfilled action.payload', action.payload);
       const { channels, currentChannelId } = action.payload;
-      chatAdapter.setAll(state, channels);
       state.currentChannelId = currentChannelId;
-      state.fetchStatus = 'idle';
-    },
-    [fetchUserData.rejected]: (state) => {
-      state.fetchStatus = 'idle';
+      chatAdapter.setAll(state, channels);
     },
   },
 });
@@ -117,7 +108,9 @@ const connectSlice = createSlice({
   initialState: { status: 'connected' },
   reducers: {
     setDisconnect: (state) => {
-      state.status = 'disconnected';
+      if (state.status === 'çonnected') {
+        state.status = 'disconnected';
+      }
     },
     setConnect: (state) => {
       state.status = 'çonnected';
@@ -128,11 +121,11 @@ const connectSlice = createSlice({
 export const channelsActions = channelsSlice.actions;
 export const messagesActions = messagesSlice.actions;
 export const modalActions = modalSlice.actions;
-export const connectStatusActions = connectSlice.actions;
+export const connectActions = connectSlice.actions;
 
 export default {
-  channels: channelsSlice.reducer,
-  messages: messagesSlice.reducer,
-  modal: modalSlice.reducer,
-  connect: connectSlice.reducer,
+  channelsReducer: channelsSlice.reducer,
+  messagesReducer: messagesSlice.reducer,
+  modalReducer: modalSlice.reducer,
+  connectReducer: connectSlice.reducer,
 };

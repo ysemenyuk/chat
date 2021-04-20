@@ -8,6 +8,7 @@ import {
 
 import SocketContext from '../../context/SocketContext.js';
 import UserContext from '../../context/UserContext.js';
+import useThunkStatus from '../../hooks/useThunkStatus.js';
 
 const ChatForm = (props) => {
   const { currentChannel } = props;
@@ -15,7 +16,7 @@ const ChatForm = (props) => {
   const user = useContext(UserContext);
   const socket = useContext(SocketContext);
   const inputRef = useRef();
-  const fetchStatus = useSelector((state) => state.channels.fetchStatus);
+  const fetchUserData = useThunkStatus('fetchUserData');
   const connectStatus = useSelector((state) => state.connect.status);
 
   const formik = useFormik({
@@ -54,7 +55,7 @@ const ChatForm = (props) => {
             <Form.Control
               type="text"
               name="text"
-              placeholder={`Message ${fetchStatus === 'idle' ? `#${currentChannel?.name}` : ''}`}
+              placeholder={`Message ${fetchUserData.isSuccess ? `#${currentChannel?.name}` : ''}`}
               ref={inputRef}
               onChange={formik.handleChange}
               disabled={formik.isSubmitting}
