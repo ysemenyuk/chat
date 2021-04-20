@@ -75,10 +75,10 @@ const AddChannel = (props) => {
           </Form.Group>
 
           <div className="d-flex justify-content-end">
-            <Button variant="secondary" className="mr-1" disabled={formik.isSubmitting || connectStatus === 'disconnected'} onClick={onCloseModal}>
+            <Button variant="secondary" className="mr-1" disabled={formik.isSubmitting} onClick={onCloseModal}>
               {t('cancle')}
             </Button>
-            <Button variant="primary" className="mr-1" disabled={formik.isSubmitting} type="submit">
+            <Button variant="primary" className="mr-1" disabled={formik.isSubmitting || connectStatus === 'disconnected'} type="submit">
               {t('submit')}
               {' '}
               <Spinner

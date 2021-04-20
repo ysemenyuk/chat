@@ -10,12 +10,13 @@ import SocketContext from '../../context/SocketContext.js';
 import UserContext from '../../context/UserContext.js';
 
 const ChatForm = (props) => {
-  const user = useContext(UserContext);
-  const socket = useContext(SocketContext);
   const { currentChannel } = props;
   const { t } = useTranslation();
+  const user = useContext(UserContext);
+  const socket = useContext(SocketContext);
   const inputRef = useRef();
   const fetchStatus = useSelector((state) => state.channels.fetchStatus);
+  const connectStatus = useSelector((state) => state.connect.status);
 
   const formik = useFormik({
     initialValues: {
@@ -58,12 +59,12 @@ const ChatForm = (props) => {
               onChange={formik.handleChange}
               disabled={formik.isSubmitting}
               value={formik.values.text}
-              isInvalid={formik.errors.text}
+              isInvalid={formik.errors.text || connectStatus === 'disconnected'}
             />
 
             <InputGroup.Append style={{ width: '15%' }}>
               <Button
-                disabled={formik.isSubmitting || !formik.values.text.trim()}
+                disabled={formik.isSubmitting || !formik.values.text.trim() || connectStatus === 'disconnected'}
                 type="submit"
                 className="w-100"
               >
@@ -81,6 +82,7 @@ const ChatForm = (props) => {
 
             <Form.Control.Feedback type="invalid">
               {formik.errors.text}
+              {connectStatus === 'disconnected' && 'Network error'}
             </Form.Control.Feedback>
 
           </InputGroup>
