@@ -6,7 +6,7 @@ import Channels from '../components/channels/Channels.jsx';
 import Chat from '../components/chat/Chat.jsx';
 import Modal from '../components/modals/index.jsx';
 
-import { fetchUserData } from '../store/slices.js';
+import { fetchUserData } from '../store/thunksSlice.js';
 
 const ChatPage = () => {
   const dispatch = useDispatch();

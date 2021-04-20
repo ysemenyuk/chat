@@ -2,18 +2,21 @@ import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 
-import { channelsSelectors } from '../../store/selectors.js';
-import { channelsActions, modalActions } from '../../store/slices.js';
+import { channelsActions, channelsSelectors } from './channelsSlice.js';
+import { modalActions } from '../modals/modalSlice.js';
 
 import ChannelsItem from './ChannelsItem.jsx';
 import useThunkStatus from '../../hooks/useThunkStatus.js';
+import { fetchUserData } from '../../store/thunksSlice.js';
 
 const Channels = () => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
+
   const channels = useSelector(channelsSelectors.selectAll);
   const currentChannel = useSelector(channelsSelectors.selectCurrentChannel);
-  const fetchUserData = useThunkStatus('fetchUserData');
+
+  const userData = useThunkStatus(fetchUserData);
 
   const handleSelectChannel = (id) => () => {
     dispatch(channelsActions.selectChannel(id));
@@ -44,7 +47,7 @@ const Channels = () => {
         </button>
       </div>
       <ul className="nav flex-column nav-pills nav-fill">
-        {fetchUserData.isSuccess
+        {userData.isSuccess
           ? channels.map((channel) => (
             <li key={channel.id} className="nav-item">
               <ChannelsItem

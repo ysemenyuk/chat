@@ -11,7 +11,7 @@ import {
 } from 'react-bootstrap';
 
 import SocketContext from '../../context/SocketContext.js';
-import { channelsSelectors } from '../../store/selectors.js';
+import { channelsSelectors } from '../channels/channelsSlice.js';
 import channelNameValidationSchema from './channelNameValidationSchema.js';
 
 const RenameChannel = (props) => {

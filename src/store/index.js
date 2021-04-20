@@ -1,15 +1,17 @@
 import { configureStore } from '@reduxjs/toolkit';
 
-import reducers from './slices.js';
-
-import thunksReducer from './thunks.js';
+import { channelsReducer } from '../components/channels/channelsSlice.js';
+import { messagesReducer } from '../components/chat/chatSlice.js';
+import { modalReducer } from '../components/modals/modalSlice.js';
+import { connectReducer } from './connectSlice.js';
+import { thunksReducer } from './thunksSlice.js';
 
 export default () => configureStore({
   reducer: {
-    channels: reducers.channelsReducer,
-    messages: reducers.messagesReducer,
-    modal: reducers.modalReducer,
-    connect: reducers.connectReducer,
+    channels: channelsReducer,
+    messages: messagesReducer,
+    modal: modalReducer,
+    connect: connectReducer,
     thunks: thunksReducer,
   },
 });

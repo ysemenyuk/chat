@@ -3,8 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import { Modal } from 'react-bootstrap';
 
-import { modalActions } from '../../store/slices.js';
-import { selectModal } from '../../store/selectors.js';
+import { modalActions, selectModal } from './modalSlice.js';
 
 import AddChannel from './AddChannel.jsx';
 import RenameChannel from './RenameChannel.jsx';

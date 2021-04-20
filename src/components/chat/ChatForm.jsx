@@ -9,6 +9,7 @@ import {
 import useSocket from '../../hooks/useSocket.js';
 import useAuth from '../../hooks/useAuth.js';
 import useThunkStatus from '../../hooks/useThunkStatus.js';
+import { fetchUserData } from '../../store/thunksSlice.js';
 
 const ChatForm = (props) => {
   const { currentChannel } = props;
@@ -16,7 +17,8 @@ const ChatForm = (props) => {
   const user = useAuth();
   const socket = useSocket();
   const inputRef = useRef();
-  const fetchUserData = useThunkStatus('fetchUserData');
+  const userData = useThunkStatus(fetchUserData);
+
   const connectStatus = useSelector((state) => state.connect.status);
 
   const formik = useFormik({
@@ -55,7 +57,7 @@ const ChatForm = (props) => {
             <Form.Control
               type="text"
               name="text"
-              placeholder={`Message ${fetchUserData.isSuccess ? `#${currentChannel?.name}` : ''}`}
+              placeholder={`Message ${userData.isSuccess ? `#${currentChannel?.name}` : ''}`}
               ref={inputRef}
               onChange={formik.handleChange}
               disabled={formik.isSubmitting}

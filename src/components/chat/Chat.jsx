@@ -6,14 +6,19 @@ import { useTranslation } from 'react-i18next';
 import ChatForm from './ChatForm.jsx';
 import ChatItem from './ChatItem.jsx';
 
-import { channelsSelectors, messagesSelectors } from '../../store/selectors.js';
+import { messagesSelectors } from './chatSlice.js';
+import { channelsSelectors } from '../channels/channelsSlice.js';
+
 import useThunkStatus from '../../hooks/useThunkStatus.js';
+import { fetchUserData } from '../../store/thunksSlice.js';
 
 const Chat = () => {
   const { t } = useTranslation();
+
   const messages = useSelector(messagesSelectors.selectByCurrentChannel);
   const currentChannel = useSelector(channelsSelectors.selectCurrentChannel);
-  const fetchUserData = useThunkStatus('fetchUserData');
+
+  const userData = useThunkStatus(fetchUserData);
 
   const messagesContainer = useRef();
 
@@ -27,11 +32,11 @@ const Chat = () => {
         <h5>
           {t('chat')}
           {' '}
-          <Badge variant="info">{fetchUserData.isSuccess && `#${currentChannel?.name}`}</Badge>
+          <Badge variant="info">{userData.isSuccess && `#${currentChannel?.name}`}</Badge>
         </h5>
       </div>
       <div ref={messagesContainer} className="overflow-auto mt-auto">
-        {fetchUserData.isSuccess
+        {userData.isSuccess
           ? messages.map((message) => (
             <ChatItem key={message.id} message={message} />
           ))
