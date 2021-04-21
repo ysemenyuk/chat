@@ -19,7 +19,7 @@ const messagesSlice = createSlice({
     },
     [channelsSlice.actions.removeChannel]: (state, action) => {
       const channelMessagesIds = state.ids
-        .filter((id) => state.entities[id].channelId === action.payload);
+        .filter((id) => state.entities[id].channelId === action.payload.id);
       adapter.removeMany(state, channelMessagesIds);
     },
   },

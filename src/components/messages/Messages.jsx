@@ -3,7 +3,6 @@ import { useSelector } from 'react-redux';
 import { Badge } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
 
-import NewMessageForm from './NewMessageForm.jsx';
 import Message from './Message.jsx';
 
 import { messagesSelectors } from './messagesSlice.js';
@@ -12,7 +11,7 @@ import { channelsSelectors } from '../channels/channelsSlice.js';
 import useThunkStatus from '../../hooks/useThunkStatus.js';
 import { fetchUserData } from '../../store/thunksSlice.js';
 
-const MessagesCol = () => {
+const Messages = () => {
   const { t } = useTranslation();
 
   const messages = useSelector(messagesSelectors.selectByCurrentChannel);
@@ -27,7 +26,7 @@ const MessagesCol = () => {
   }, [messages]);
 
   return (
-    <div className="d-flex flex-column h-100">
+    <>
       <div className="border-bottom pb-2 d-flex">
         <h5>
           {t('chat')}
@@ -42,9 +41,8 @@ const MessagesCol = () => {
           ))
           : <p>Loading...</p>}
       </div>
-      <NewMessageForm currentChannel={currentChannel} />
-    </div>
+    </>
   );
 };
 
-export default MessagesCol;
+export default Messages;

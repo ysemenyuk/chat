@@ -6,19 +6,20 @@ import {
   Button, Form, Spinner, InputGroup,
 } from 'react-bootstrap';
 
+import { channelsSelectors } from '../channels/channelsSlice.js';
 import useSocket from '../../hooks/useSocket.js';
 import useAuth from '../../hooks/useAuth.js';
 import useThunkStatus from '../../hooks/useThunkStatus.js';
 import { fetchUserData } from '../../store/thunksSlice.js';
 
-const NewMessageForm = (props) => {
-  const { currentChannel } = props;
+const NewMessageForm = () => {
   const { t } = useTranslation();
   const user = useAuth();
   const socket = useSocket();
   const inputRef = useRef();
   const userData = useThunkStatus(fetchUserData);
 
+  const currentChannel = useSelector(channelsSelectors.selectCurrentChannel);
   const connectStatus = useSelector((state) => state.connect.status);
 
   const formik = useFormik({
